@@ -99,10 +99,10 @@
             cancel;
 
         strArgs = typeOfArgs['strArgs'];
-        jsonArgs = typeOfArgs['jsonArgs']
+        jsonArgs = typeOfArgs['jsonArgs'];
         fnArgs = typeOfArgs['fnArgs'];
-        strArgs.length? content = strArgs : content = '';
-        jsonArgs.length? options = jsonArgs : options = {};
+        strArgs.length? content = strArgs[0] : content = '';
+        jsonArgs.length? options = jsonArgs[0] : options = {};
         ok = fnArgs[0];
         cancel = fnArgs[1];
 
@@ -204,19 +204,20 @@
         */
 
         createLay: function(options, type){
-            console.log(options);
-            console.log(type);
+            // console.log(options);
+            // console.log(type);
             var content = options.content,
                 opts = options.options,
                 title = opts.title || defaults['title'],
                 shade = opts.shade || defaults['shade'],
                 layControl = opts.layControl || defaults['layControl'],
-                ok = opts.ok || options.ok,
-                cancel = opts.cancel || options.cancel,
                 okText = opts.okText || defaults['okText'],
                 cancelText = opts.cancelText || defaults['cancelText'],
                 layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter),
                 doms = '';
+
+            this.ok = opts.ok || options.ok;
+            this.cancel = opts.cancel || options.cancel;
 
             /* shade */
 
@@ -269,6 +270,7 @@
         */
         onConfirm: function(){
             this.close();
+            this.ok? this.ok(): '';
         },
 
 
@@ -278,6 +280,7 @@
         */
         onCancel: function(){
             this.close();
+            this.cancel? this.cancel(): '';
         },
 
 
