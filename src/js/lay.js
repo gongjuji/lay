@@ -8,8 +8,12 @@
             title: '提示信息',
             okText: '确定',
             cancelText: '取消',
-            shade: 'close',
+            /*
+                true, false or 'close'
+            */
+            shade: true,
             layControl: true,
+            params: null
         },
         l,
         zIndex = 888,
@@ -130,6 +134,7 @@
             ok              callback
             cancel          callback
         */
+
         alert: function(content, options, ok, cancel){
             var args = arguments;
             this.init(args, 1);
@@ -137,8 +142,10 @@
         },
 
 
-        confirm: function(){
-
+        confirm: function(content, options, ok, cancel){
+            var args = arguments;
+            this.init(args, 2);
+            return layCounter;
         },
 
 
@@ -208,9 +215,8 @@
             // console.log(type);
             var content = options.content,
                 opts = options.options,
-                title = opts.title || defaults['title'],
                 shade = opts.shade || defaults['shade'],
-                layControl = opts.layControl || defaults['layControl'],
+                title = opts.title || defaults['title'],
                 okText = opts.okText || defaults['okText'],
                 cancelText = opts.cancelText || defaults['cancelText'],
                 layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter),
@@ -218,10 +224,16 @@
 
             this.ok = opts.ok || options.ok;
             this.cancel = opts.cancel || options.cancel;
+            this.params = opts.params || options.params;
+
+            shade===false? this.shade=false: shade===true? this.shade=true: this.shade='close'
+
+            this.layControl = opts.layControl || defaults['layControl'];
+
 
             /* shade */
 
-            if(shade){
+            if(this.shade){
                 doms += layDoms['a'];
             }
 
@@ -231,7 +243,7 @@
                 doms += layDoms.c;
             }
 
-            if (layControl) {
+            if (this.layControl) {
                 doms += layDoms.d;
             }
 
@@ -239,7 +251,7 @@
 
             doms += layDoms.f;
             doms += layDoms.g;
-            if (type == 4) {
+            if (type == 2) {
                 doms += layDoms.h;
             }
             doms += layDoms.fe;
@@ -270,7 +282,7 @@
         */
         onConfirm: function(){
             this.close();
-            this.ok? this.ok(): '';
+            this.ok? this.ok(this.params): '';
         },
 
 
@@ -289,9 +301,20 @@
         */
 
         eventBind: function(){
+
             var that = this;
 
             $('.lay-close').click(function(){
+                that.onCancel();
+            });
+
+            if(that.shade==='close'){
+                $('.lay-shade').click(function(){
+                    that.onCancel();
+                });
+            }
+
+            $('.lay-btn-cancel').click(function(){
                 that.onCancel();
             });
 
@@ -314,6 +337,7 @@
         }
 
     }
+
     var lay = window.lay = new Lay();
     $.alert = lay.alert;
     $.confirm = lay.confirm;
