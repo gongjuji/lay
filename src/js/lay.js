@@ -214,21 +214,21 @@
             // console.log(options);
             // console.log(type);
             var content = options.content,
-                opts = options.options,
-                shade = opts.shade || defaults['shade'],
-                title = opts.title || defaults['title'],
-                okText = opts.okText || defaults['okText'],
-                cancelText = opts.cancelText || defaults['cancelText'],
+                opts = $.extend({}, defaults, options.options),
+                shade = opts.shade,
+                title = opts.title,
+                okText = opts.okText,
+                cancelText = opts.cancelText,
                 layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter),
                 doms = '';
 
             this.ok = opts.ok || options.ok;
             this.cancel = opts.cancel || options.cancel;
             this.params = opts.params || options.params;
+            this.shade = opts.shade;
+            this.layControl = opts.layControl;
 
-            shade===false? this.shade=false: shade===true? this.shade=true: this.shade='close'
-
-            this.layControl = opts.layControl || defaults['layControl'];
+            console.log(opts);
 
 
             /* shade */
