@@ -132,7 +132,7 @@
         */
         alert: function(content, options, ok, cancel){
             var args = arguments;
-            this.init(args);
+            this.init(args, 1);
             return layCounter;
         },
 
@@ -162,10 +162,12 @@
             init
         */
 
-        init: function(args){
+        init: function(args, type){
             var typeOfArgs = getTypeOfArgs(args);
             var opts = createOptions(typeOfArgs);
-            this.createLay(opts, 1);
+            this.createLay(opts, type);
+            this.setPosition();
+            this.eventBind();
         },
 
 
@@ -244,9 +246,6 @@
             doms += layDoms.be;
 
             $('body').append(doms);
-
-            this.eventBind();
-
         },
 
 
@@ -254,7 +253,31 @@
             set position
         */
         setPosition: function(index){
+            var index = index || layCounter;
+            $(".lay-body[laycounter=" + index + "]").each(function(){
+                $(this).css({
+                    'margin-left': -$(this).outerWidth()/2,
+                    'margin-top': -$(this).outerHeight()/2
+                });
+            });
+        },
 
+
+        /*
+            onConfirm
+            bind confirm
+        */
+        onConfirm: function(){
+            this.close();
+        },
+
+
+        /*
+            onCancle
+            bind cancel
+        */
+        onCancel: function(){
+            this.close();
         },
 
 
@@ -264,11 +287,28 @@
 
         eventBind: function(){
             var that = this;
+
             $('.lay-close').click(function(){
-                that.close();
+                that.onCancel();
+            });
+
+            $('.lay-btn-confirm').click(function(){
+                that.onConfirm();
+            });
+
+            $(window).keyup(function(e) {
+                switch (e.keyCode) {
+                    case 27:
+                        that.onCancel();
+                        break;
+                    case 13:
+                        that.onConfirm();
+                        break;
+                    default:
+                        break;
+                }
             });
         }
-
 
     }
     var lay = window.lay = new Lay();
