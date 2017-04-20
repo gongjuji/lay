@@ -34,7 +34,7 @@
         objStyle,
         cls = {
             'lay-shade': 'lay-shade',
-            'lay-body': 'lay-body lay-msg',
+            'lay-body': 'lay-body',
             'lay-title': 'lay-title',
             'lay-control': 'lay-control',
             'lay-close': 'lay-close',
@@ -151,6 +151,7 @@
                 type: 1,
                 btns: 'alert'
             };
+            cls['lay-body'] = 'lay-body lay-alert';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -162,6 +163,7 @@
                 type: 2,
                 btns: 'confirm'
             };
+            cls['lay-body'] = 'lay-body lay-confirm';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -174,8 +176,8 @@
                 title: false,
                 control: false,
                 btns: false
-
             };
+            cls['lay-body'] = 'lay-body lay-msg';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -189,6 +191,7 @@
                 control: false,
                 btns: false
             };
+            cls['lay-body'] = 'lay-body lay-tip';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -252,7 +255,6 @@
 
         createLay: function(options, privateDefaults){
 
-            console.log(privateDefaults);
             var content = options.content,
                 opts = $.extend({}, defaults, privateDefaults, options.options),
                 type = opts.type,
