@@ -17,6 +17,8 @@
                 to be deleted
             */
             layControl: true,
+            enterEvent: false,
+            escEvent: true,
             /*
                 middle
                 top
@@ -30,7 +32,10 @@
             btns: false,
             okText: '确定',
             cancelText: '取消',
-            params: null
+            params: null,
+            classNames: null,
+            styles: null
+
         },
         zIndex = 888,
         layCounter = 0,
@@ -156,7 +161,8 @@
             var args = arguments;
             var privateDefaults = {
                 type: 1,
-                btns: 'alert'
+                btns: 'alert',
+                enterEvent: true
             };
             cls['lay-body'] += ' lay-alert';
             this.init(args, privateDefaults);
@@ -168,7 +174,8 @@
             var args = arguments;
             var privateDefaults = {
                 type: 2,
-                btns: 'confirm'
+                btns: 'confirm',
+                enterEvent: true
             };
             cls['lay-body'] += ' lay-confirm';
             this.init(args, privateDefaults);
@@ -272,6 +279,8 @@
                 btns = opts.btns,
                 okText = opts.okText,
                 cancelText = opts.cancelText,
+                classNames = opts.classNames,
+                styles = opts.styles,
                 layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter),
                 doms = '';
 
@@ -285,6 +294,17 @@
             this.shade = opts.shade;
             this.layControl = opts.layControl;
             this.control = opts.control;
+            this.enterEvent = opts.enterEvent;
+            this.escEvent = opts.escEvent;
+
+
+            if(classNames){
+                cls['lay-body'] += ' ' + classNames;
+            }
+
+            if(styles){
+
+            }
 
             /*
                 dispaly control:
@@ -295,8 +315,6 @@
                 btns
 
             */
-
-
 
             /* shade */
             if(this.shade){
@@ -484,13 +502,22 @@
                 that.onConfirm();
             });
 
+            if(!(this.layControl && this.control)){
+                that.escEvent = false;
+                that.enterEvent = false;
+            }
+
             $(window).keyup(function(e) {
                 switch (e.keyCode) {
                     case 27:
-                        that.onCancel();
+                        if(that.escEvent){
+                            that.onCancel();
+                        }
                         break;
                     case 13:
-                        that.onConfirm();
+                        if(that.enterEvent){
+                            that.onConfirm();
+                        }
                         break;
                     default:
                         break;
