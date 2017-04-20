@@ -30,8 +30,24 @@ html.lay-lock {
     top: 50%;
     background: #fff;
     box-shadow: 1px 1px 50px rgba(0,0,0,.3);
-    min-width: 258px;
+    // min-width: 258px;
     overflow: hidden;
+    &.lay-alert,
+    &.lay-confirm{
+        min-width: 258px;
+    }
+
+    &.lay-msg{
+        box-shadow: none;
+        border-radius: 2px;
+        .lay-content{
+            padding: 8px 15px;
+            font-size: 12px;
+            background: rgba(0,0,0,0.68);
+            background: #535353\9;
+            color: #fff;
+        }
+    }
 }
 
 .lay-title {
@@ -282,16 +298,6 @@ html.lay-lock {
         }
     }
 }
-
-
-// lay-msg
-
-.lay-msg,
-.lay-tip
-{
-    box-shadow: none;
-}
-
 
 
 
