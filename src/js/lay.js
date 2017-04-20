@@ -15,7 +15,6 @@
             layControl: true,
             params: null
         },
-        l,
         zIndex = 888,
         layCounter = 0,
         type,
@@ -91,6 +90,7 @@
     /*
         create options
     */
+
     var createOptions = function(typeOfArgs){
 
         var typeOfArgs,
@@ -150,7 +150,9 @@
 
 
         tip: function(){
-
+            var args = arguments;
+            this.init(args, 3);
+            return layCounter;
         },
 
 
@@ -211,8 +213,6 @@
         */
 
         createLay: function(options, type){
-            // console.log(options);
-            // console.log(type);
             var content = options.content,
                 opts = $.extend({}, defaults, options.options),
                 shade = opts.shade,
@@ -228,34 +228,42 @@
             this.shade = opts.shade;
             this.layControl = opts.layControl;
 
-            console.log(opts);
-
-
             /* shade */
-
             if(this.shade){
                 doms += layDoms['a'];
             }
 
+            /* lay body */
             doms += layDoms.b;
 
+            /* title */
             if (title) {
                 doms += layDoms.c;
             }
 
+            /* control btns */
             if (this.layControl) {
                 doms += layDoms.d;
             }
 
+            /* content */
             doms += layDoms.e;
 
+            /* btns */
             doms += layDoms.f;
+
+            /* confirm btn */
             doms += layDoms.g;
+
+            /* cancel btn */
             if (type == 2) {
                 doms += layDoms.h;
             }
+
+            /* content end */
             doms += layDoms.fe;
 
+            /* body end */
             doms += layDoms.be;
 
             $('body').append(doms);
@@ -265,6 +273,7 @@
         /*
             set position
         */
+
         setPosition: function(index){
             var index = index || layCounter;
             $(".lay-body[laycounter=" + index + "]").each(function(){
@@ -280,6 +289,7 @@
             onConfirm
             bind confirm
         */
+
         onConfirm: function(){
             this.close();
             this.ok? this.ok(this.params): '';
@@ -290,6 +300,7 @@
             onCancle
             bind cancel
         */
+
         onCancel: function(){
             this.close();
             this.cancel? this.cancel(): '';
