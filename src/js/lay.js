@@ -6,13 +6,17 @@
     var version = '1.0',
         defaults = {
             title: '提示信息',
-            okText: '确定',
-            cancelText: '取消',
             /*
                 true, false or 'close'
             */
             shade: true,
             layControl: true,
+            /*
+                false, 'alert', 'confirm'
+            */
+            btns: false,
+            okText: '确定',
+            cancelText: '取消',
             params: null
         },
         zIndex = 888,
@@ -137,21 +141,49 @@
 
         alert: function(content, options, ok, cancel){
             var args = arguments;
-            this.init(args, 1);
+            var privateDefaults = {
+                type: 1,
+                btns: 'alert'
+            };
+            this.init(args, privateDefaults);
             return layCounter;
         },
 
 
         confirm: function(content, options, ok, cancel){
             var args = arguments;
-            this.init(args, 2);
+            var privateDefaults = {
+                type: 2,
+                btns: 'confirm'
+            };
+            this.init(args, privateDefaults);
+            return layCounter;
+        },
+
+
+        msg: function(){
+            var args = arguments;
+            var privateDefaults = {
+                type: 3,
+                title: false,
+                control: false,
+                btns: false
+
+            };
+            this.init(args, privateDefaults);
             return layCounter;
         },
 
 
         tip: function(){
             var args = arguments;
-            this.init(args, 3);
+            var privateDefaults = {
+                type: 4,
+                title: false,
+                control: false,
+                btns: false
+            };
+            this.init(args, privateDefaults);
             return layCounter;
         },
 
@@ -171,10 +203,10 @@
             init
         */
 
-        init: function(args, type){
+        init: function(args, privateDefaults){
             var typeOfArgs = getTypeOfArgs(args);
             var opts = createOptions(typeOfArgs);
-            this.createLay(opts, type);
+            this.createLay(opts, privateDefaults);
             this.setPosition();
             this.eventBind();
         },
@@ -212,21 +244,39 @@
             create lay
         */
 
-        createLay: function(options, type){
+        createLay: function(options, privateDefaults){
+
+            console.log(privateDefaults);
             var content = options.content,
-                opts = $.extend({}, defaults, options.options),
+                opts = $.extend({}, defaults, privateDefaults, options.options),
+                type = opts.type,
                 shade = opts.shade,
                 title = opts.title,
+                btns = opts.btns,
                 okText = opts.okText,
                 cancelText = opts.cancelText,
                 layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter),
                 doms = '';
+
+            console.log(opts);
 
             this.ok = opts.ok || options.ok;
             this.cancel = opts.cancel || options.cancel;
             this.params = opts.params || options.params;
             this.shade = opts.shade;
             this.layControl = opts.layControl;
+
+            /*
+                dispaly control:
+
+                shade
+                title
+                layControl
+                btns
+
+            */
+
+
 
             /* shade */
             if(this.shade){
@@ -250,18 +300,21 @@
             doms += layDoms.e;
 
             /* btns */
-            doms += layDoms.f;
+            if(btns){
 
-            /* confirm btn */
-            doms += layDoms.g;
+                doms += layDoms.f;
 
-            /* cancel btn */
-            if (type == 2) {
-                doms += layDoms.h;
+                /* confirm btn */
+                doms += layDoms.g;
+
+                /* cancel btn */
+                if (btns=== 'confirm') {
+                    doms += layDoms.h;
+                }
+
+                /* btns end */
+                doms += layDoms.fe;
             }
-
-            /* content end */
-            doms += layDoms.fe;
 
             /* body end */
             doms += layDoms.be;
