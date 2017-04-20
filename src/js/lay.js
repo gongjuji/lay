@@ -18,6 +18,13 @@
             */
             layControl: true,
             /*
+                middle
+                top
+                bottom
+            */
+            position: 'middle',
+            space: 15,
+            /*
                 false, 'alert', 'confirm'
             */
             btns: false,
@@ -270,6 +277,8 @@
 
             console.log(opts);
 
+            this.position = opts.position;
+            this.space = opts.space;
             this.ok = opts.ok || options.ok;
             this.cancel = opts.cancel || options.cancel;
             this.params = opts.params || options.params;
@@ -339,12 +348,44 @@
         */
 
         setPosition: function(index){
+            var that = this;
             var index = index || layCounter;
             $(".lay-body[laycounter=" + index + "]").each(function(){
-                $(this).css({
-                    'margin-left': -$(this).outerWidth()/2,
-                    'margin-top': -$(this).outerHeight()/2
-                });
+                var position = that.position;
+
+                switch(position){
+
+                    /* middle */
+                    case 'middle':
+                    $(this).css({
+                        'margin-top': -$(this).outerHeight()/2
+                    });
+                    break;
+
+                    /* top */
+                    case 'top':
+                    $(this).css({
+                        'top': that.space
+                    });
+                    break;
+
+                    /* bottom */
+                    case 'bottom':
+                    $(this).css({
+                        'top': 'auto',
+                        'bottom': that.space
+                    });
+                    break;
+                    default:
+                    break;
+                }
+
+                if(that.position==='middle' || that.position==='top' || that.position==='bottom'){
+                    $(this).css({
+                        'margin-left': -$(this).outerWidth()/2
+                    });
+                }
+
             });
         },
 
