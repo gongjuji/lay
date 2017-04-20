@@ -376,6 +376,52 @@
                         'bottom': that.space
                     });
                     break;
+
+                    /* top left */
+                    case 'topLeft':
+                    $(this).css({
+                        'top': that.space,
+                        'left': that.space
+                    });
+                    break;
+
+                    /* top right */
+                    case 'topRight':
+                    $(this).css({
+                        'top': that.space,
+                        'left': 'auto',
+                        'right': that.space
+                    });
+                    break;
+
+                    /* top right */
+                    case 'topRight':
+                    $(this).css({
+                        'top': that.space,
+                        'left': 'auto',
+                        'right': that.space
+                    });
+                    break;
+
+                    /* bottom right */
+                    case 'bottomRight':
+                    $(this).css({
+                        'left': 'auto',
+                        'top': 'auto',
+                        'bottom': that.space,
+                        'right': that.space
+                    });
+                    break;
+
+                    /* bottom left */
+                    case 'bottomLeft':
+                    $(this).css({
+                        'left': that.space,
+                        'top': 'auto',
+                        'bottom': that.space
+                    });
+                    break;
+
                     default:
                     break;
                 }
