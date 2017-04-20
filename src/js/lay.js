@@ -10,6 +10,12 @@
                 true, false or 'close'
             */
             shade: true,
+            control: true,
+            /*
+                in use
+                change to control
+                to be deleted
+            */
             layControl: true,
             /*
                 false, 'alert', 'confirm'
@@ -265,6 +271,7 @@
             this.params = opts.params || options.params;
             this.shade = opts.shade;
             this.layControl = opts.layControl;
+            this.control = opts.control;
 
             /*
                 dispaly control:
@@ -292,7 +299,7 @@
             }
 
             /* control btns */
-            if (this.layControl) {
+            if (this.layControl && this.control) {
                 doms += layDoms.d;
             }
 
