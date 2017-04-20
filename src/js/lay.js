@@ -151,7 +151,7 @@
                 type: 1,
                 btns: 'alert'
             };
-            cls['lay-body'] = 'lay-body lay-alert';
+            cls['lay-body'] += ' lay-alert';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -163,7 +163,7 @@
                 type: 2,
                 btns: 'confirm'
             };
-            cls['lay-body'] = 'lay-body lay-confirm';
+            cls['lay-body'] += ' lay-confirm';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -177,7 +177,8 @@
                 control: false,
                 btns: false
             };
-            cls['lay-body'] = 'lay-body lay-msg';
+            cls['lay-shade']+= ' shade-transparent';
+            cls['lay-body'] += ' lay-msg';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -191,7 +192,8 @@
                 control: false,
                 btns: false
             };
-            cls['lay-body'] = 'lay-body lay-tip';
+            cls['lay-shade']+= ' shade-transparent';
+            cls['lay-body'] += ' lay-tip';
             this.init(args, privateDefaults);
             return layCounter;
         },
