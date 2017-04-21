@@ -164,7 +164,7 @@
                 btns: 'alert',
                 enterEvent: true,
                 privateCls: {
-                    'lay-body': 'lay-body alert'
+                    'lay-body': 'lay-alert'
                 }
             };
 
@@ -180,7 +180,7 @@
                 btns: 'confirm',
                 enterEvent: true,
                 privateCls: {
-                    'lay-body': 'lay-body lay-confirm'
+                    'lay-body': 'lay-confirm'
                 }
             };
 
@@ -197,8 +197,8 @@
                 control: false,
                 btns: false,
                 privateCls: {
-                    'lay-shade': 'lay-shade shade-transparent',
-                    'lay-body': 'lay-body lay-msg'
+                    'lay-shade': 'shade-transparent',
+                    'lay-body': 'lay-msg'
                 }
             };
 
@@ -215,8 +215,8 @@
                 control: false,
                 btns: false,
                 privateCls: {
-                    'lay-shade': 'lay-shade shade-transparent',
-                    'lay-body': 'lay-body lay-tip'
+                    'lay-shade': 'shade-transparent',
+                    'lay-body': 'lay-tip'
                 }
             };
             // cls['lay-shade']+= ' shade-transparent';
@@ -311,6 +311,10 @@
             this.control = opts.control;
             this.enterEvent = opts.enterEvent;
             this.escEvent = opts.escEvent;
+
+            for(var i in privateCls){
+                privateCls[i] = cls[i] + ' ' + privateCls[i];
+            }
 
             this.cls = $.extend({}, cls, privateCls);
 
