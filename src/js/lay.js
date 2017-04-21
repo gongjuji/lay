@@ -162,9 +162,12 @@
             var privateDefaults = {
                 type: 1,
                 btns: 'alert',
-                enterEvent: true
+                enterEvent: true,
+                privateCls: {
+                    'lay-body': 'lay-body alert'
+                }
             };
-            cls['lay-body'] += ' lay-alert';
+
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -175,9 +178,12 @@
             var privateDefaults = {
                 type: 2,
                 btns: 'confirm',
-                enterEvent: true
+                enterEvent: true,
+                privateCls: {
+                    'lay-body': 'lay-body lay-confirm'
+                }
             };
-            cls['lay-body'] += ' lay-confirm';
+
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -189,10 +195,13 @@
                 type: 3,
                 title: false,
                 control: false,
-                btns: false
+                btns: false,
+                privateCls: {
+                    'lay-shade': 'lay-shade shade-transparent',
+                    'lay-body': 'lay-body lay-msg'
+                }
             };
-            cls['lay-shade']+= ' shade-transparent';
-            cls['lay-body'] += ' lay-msg';
+
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -204,10 +213,14 @@
                 type: 4,
                 title: false,
                 control: false,
-                btns: false
+                btns: false,
+                privateCls: {
+                    'lay-shade': 'lay-shade shade-transparent',
+                    'lay-body': 'lay-body lay-tip'
+                }
             };
-            cls['lay-shade']+= ' shade-transparent';
-            cls['lay-body'] += ' lay-tip';
+            // cls['lay-shade']+= ' shade-transparent';
+            // cls['lay-body'] += ' lay-tip';
             this.init(args, privateDefaults);
             return layCounter;
         },
@@ -242,6 +255,7 @@
         */
 
         createLayDoms: function(title, content, okText, cancelText, layCounter){
+            var cls = this.cls;
             return {
                 // lay-shade
                 a: '<div class="' + cls['lay-shade'] + '" layCounter="' + layCounter + '"></div>',
@@ -281,7 +295,8 @@
                 cancelText = opts.cancelText,
                 classNames = opts.classNames,
                 styles = opts.styles,
-                layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter),
+                privateCls = opts.privateCls,
+                layDoms,
                 doms = '';
 
             console.log(opts);
@@ -297,9 +312,12 @@
             this.enterEvent = opts.enterEvent;
             this.escEvent = opts.escEvent;
 
+            this.cls = $.extend({}, cls, privateCls);
+
+            layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter);
 
             if(classNames){
-                cls['lay-body'] += ' ' + classNames;
+                this.cls['lay-body'] += ' ' + classNames;
             }
 
             if(styles){
