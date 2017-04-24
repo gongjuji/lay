@@ -34,9 +34,10 @@
             cancelText: '取消',
             params: null,
             classNames: null,
-            styles: null
+            styles: ''
 
         },
+        l,
         zIndex = 888,
         layCounter = 0,
         type,
@@ -219,15 +220,23 @@
                     'lay-body': 'lay-tip'
                 }
             };
-            // cls['lay-shade']+= ' shade-transparent';
-            // cls['lay-body'] += ' lay-tip';
+
             this.init(args, privateDefaults);
             return layCounter;
         },
 
 
-        popup: function(){
+        pop: function(){
+            var args = arguments;
+            var privateDefaults = {
+                type: 5,
+                privateCls: {
+                    'lay-body': 'lay-pop'
+                }
+            };
 
+            this.init(args, privateDefaults);
+            return layCounter;
         },
 
 
@@ -256,6 +265,7 @@
 
         createLayDoms: function(title, content, okText, cancelText, layCounter){
             var cls = this.cls;
+            var styles = this.styles;
             return {
                 // lay-shade
                 a: '<div class="' + cls['lay-shade'] + '" layCounter="' + layCounter + '"></div>',
@@ -266,7 +276,7 @@
                 // lay-control
                 d: '<div class="' + cls['lay-control'] + '"><i class="' + cls['lay-close'] + '">&times;</i></div>',
                 // lay-content
-                e: '<div class="' + cls['lay-content'] + '" >' + content + '</div>',
+                e: '<div class="' + cls['lay-content'] + '" style="' + styles + '" >' + content + '</div>',
                 // lay-btns
                 f: '<div class="' + cls['lay-btns'] + '">',
                 // lay-btn-confirm
@@ -285,7 +295,8 @@
 
         createLay: function(options, privateDefaults){
 
-            var content = options.content,
+            var l = $(".lay-body[laycounter=" + ++layCounter + "]"),
+                content = options.content,
                 opts = $.extend({}, defaults, privateDefaults, options.options),
                 type = opts.type,
                 shade = opts.shade,
@@ -294,13 +305,13 @@
                 okText = opts.okText,
                 cancelText = opts.cancelText,
                 classNames = opts.classNames,
-                styles = opts.styles,
                 privateCls = opts.privateCls,
                 layDoms,
                 doms = '';
 
             console.log(opts);
 
+            this.styles = opts.styles,
             this.position = opts.position;
             this.space = opts.space;
             this.ok = opts.ok || options.ok;
@@ -318,15 +329,12 @@
 
             this.cls = $.extend({}, cls, privateCls);
 
-            layDoms = this.createLayDoms(title, content, okText, cancelText, ++layCounter);
-
             if(classNames){
                 this.cls['lay-body'] += ' ' + classNames;
             }
 
-            if(styles){
+            layDoms = this.createLayDoms(title, content, okText, cancelText, layCounter);
 
-            }
 
             /*
                 dispaly control:
@@ -550,9 +558,5 @@
     }
 
     var lay = window.lay = new Lay();
-    $.alert = lay.alert;
-    $.confirm = lay.confirm;
-    $.tip = lay.tip;
-    $.popup = lay.popup;
 
 })(window, jQuery);

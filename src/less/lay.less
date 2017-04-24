@@ -1,3 +1,9 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
 @themeColor: #05abef;
 html.lay-lock {
     overflow: hidden;
@@ -28,10 +34,10 @@ html.lay-lock {
     position: fixed;
     left: 50%;
     top: 50%;
-    background: #fff;
     box-shadow: 1px 1px 50px rgba(0,0,0,.3);
     // min-width: 258px;
     overflow: hidden;
+    font-size: 0;
     &.lay-alert,
     &.lay-confirm{
         min-width: 258px;
@@ -92,6 +98,7 @@ html.lay-lock {
 }
 
 .lay-content {
+    background: #fff;
     padding: 15px;
     font-size: 14px;
     overflow-y: auto;
@@ -102,9 +109,11 @@ html.lay-lock {
 }
 
 .lay-btns {
-    padding: 0 15px 15px;
+    background: #fff;
+    padding: 1px 15px 15px;
     font-size: 0;
     text-align: right;
+    margin-top: -1px;
 }
 
 .lay-btns a {
