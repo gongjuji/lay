@@ -57,9 +57,9 @@
             'lay-btn-cancel': 'lay-btn-cancel'
         };
 
-    var Lay = function(){
-
-    }
+    // var Lay = function(){
+    //
+    // }
 
 
     /*
@@ -146,9 +146,11 @@
         prototype
     */
 
-    Lay.prototype = {
+    var lay = {
 
         version: version,
+
+        defaults: defaults,
 
         /*
             params:
@@ -294,10 +296,10 @@
         */
 
         createLay: function(options, privateDefaults){
-
+            var that = this;
             var l = $(".lay-body[laycounter=" + ++layCounter + "]"),
                 content = options.content,
-                opts = $.extend({}, defaults, privateDefaults, options.options),
+                opts = $.extend({}, that.defaults, privateDefaults, options.options),
                 type = opts.type,
                 shade = opts.shade,
                 title = opts.title,
@@ -553,10 +555,18 @@
                         break;
                 }
             });
+        },
+
+        /*
+            设置全局默认项
+        */
+        setDefaults: function(options){
+            var that = this;
+            this.defaults = $.extend({}, that.defaults, options);
         }
 
     }
 
-    var lay = window.lay = new Lay();
+    window.lay = lay;
 
 })(window, jQuery);
