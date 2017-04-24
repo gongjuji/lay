@@ -296,10 +296,10 @@
         */
 
         createLay: function(options, privateDefaults){
-            var that = this;
+            var _this = this;
             var l = $(".lay-body[laycounter=" + ++layCounter + "]"),
                 content = options.content,
-                opts = $.extend({}, that.defaults, privateDefaults, options.options),
+                opts = $.extend({}, _this.defaults, privateDefaults, options.options),
                 type = opts.type,
                 shade = opts.shade,
                 title = opts.title,
@@ -398,10 +398,10 @@
         */
 
         setPosition: function(index){
-            var that = this;
+            var _this = this;
             var index = index || layCounter;
             $(".lay-body[laycounter=" + index + "]").each(function(){
-                var position = that.position;
+                var position = _this.position;
 
                 switch(position){
 
@@ -415,7 +415,7 @@
                     /* top */
                     case 'top':
                     $(this).css({
-                        'top': that.space
+                        'top': _this.space
                     });
                     break;
 
@@ -423,33 +423,33 @@
                     case 'bottom':
                     $(this).css({
                         'top': 'auto',
-                        'bottom': that.space
+                        'bottom': _this.space
                     });
                     break;
 
                     /* top left */
                     case 'topLeft':
                     $(this).css({
-                        'top': that.space,
-                        'left': that.space
+                        'top': _this.space,
+                        'left': _this.space
                     });
                     break;
 
                     /* top right */
                     case 'topRight':
                     $(this).css({
-                        'top': that.space,
+                        'top': _this.space,
                         'left': 'auto',
-                        'right': that.space
+                        'right': _this.space
                     });
                     break;
 
                     /* top right */
                     case 'topRight':
                     $(this).css({
-                        'top': that.space,
+                        'top': _this.space,
                         'left': 'auto',
-                        'right': that.space
+                        'right': _this.space
                     });
                     break;
 
@@ -458,17 +458,17 @@
                     $(this).css({
                         'left': 'auto',
                         'top': 'auto',
-                        'bottom': that.space,
-                        'right': that.space
+                        'bottom': _this.space,
+                        'right': _this.space
                     });
                     break;
 
                     /* bottom left */
                     case 'bottomLeft':
                     $(this).css({
-                        'left': that.space,
+                        'left': _this.space,
                         'top': 'auto',
-                        'bottom': that.space
+                        'bottom': _this.space
                     });
                     break;
 
@@ -476,7 +476,7 @@
                     break;
                 }
 
-                if(that.position==='middle' || that.position==='top' || that.position==='bottom'){
+                if(_this.position==='middle' || _this.position==='top' || _this.position==='bottom'){
                     $(this).css({
                         'margin-left': -$(this).outerWidth()/2
                     });
@@ -514,41 +514,41 @@
 
         eventBind: function(){
 
-            var that = this;
+            var _this = this;
 
             $('.lay-close').click(function(){
-                that.onCancel();
+                _this.onCancel();
             });
 
-            if(that.shade==='close'){
+            if(_this.shade==='close'){
                 $('.lay-shade').click(function(){
-                    that.onCancel();
+                    _this.onCancel();
                 });
             }
 
             $('.lay-btn-cancel').click(function(){
-                that.onCancel();
+                _this.onCancel();
             });
 
             $('.lay-btn-confirm').click(function(){
-                that.onConfirm();
+                _this.onConfirm();
             });
 
             if(!(this.layControl && this.control)){
-                that.escEvent = false;
-                that.enterEvent = false;
+                _this.escEvent = false;
+                _this.enterEvent = false;
             }
 
             $(window).keyup(function(e) {
                 switch (e.keyCode) {
                     case 27:
-                        if(that.escEvent){
-                            that.onCancel();
+                        if(_this.escEvent){
+                            _this.onCancel();
                         }
                         break;
                     case 13:
-                        if(that.enterEvent){
-                            that.onConfirm();
+                        if(_this.enterEvent){
+                            _this.onConfirm();
                         }
                         break;
                     default:
@@ -561,8 +561,8 @@
             设置全局默认项
         */
         setDefaults: function(options){
-            var that = this;
-            this.defaults = $.extend({}, that.defaults, options);
+            var _this = this;
+            this.defaults = $.extend({}, _this.defaults, options);
         }
 
     }
