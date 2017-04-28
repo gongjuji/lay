@@ -26,6 +26,8 @@
             */
             position: 'middle',
             space: 15,
+            minWidth: null,
+            maxWidth: null,
             /*
                 false, 'alert', 'confirm'
             */
@@ -57,26 +59,17 @@
             'lay-btn-cancel': 'lay-btn-cancel'
         };
 
-    // var Lay = function(){
-    //
-    // }
+    var Lay = function(){
+
+    }
 
 
-    /*
-        get the type of funcion arguments
-        return back a json object
-        {
-            strArgs: strArgs,
-            jsonArgs: jsonArgs,
-            fnArgs: fnArgs,
-            opts: {
-                content: content,
-                options: options,
-                ok: ok,
-                cancel: cancel
-            }
-        }
-    */
+    /**
+     * var getTypeOfArgs - get the type of funcion arguments
+     *
+     * @param  {json} args the arguments of method
+     * @return {json} classify the arguments
+    **/
 
     var getTypeOfArgs = function(args){
 
@@ -146,7 +139,7 @@
         prototype
     */
 
-    var lay = {
+    Lay.prototype = {
 
         version: version,
 
@@ -160,16 +153,23 @@
             cancel          callback
         */
 
+
+
         alert: function(content, options, ok, cancel){
+
             var args = arguments;
             var privateDefaults = {
                 type: 1,
                 btns: 'alert',
                 enterEvent: true,
+                minWidth: '240px',
+                maxWidth: '450px',
                 privateCls: {
                     'lay-body': 'lay-alert'
                 }
             };
+
+
 
             this.init(args, privateDefaults);
             return layCounter;
@@ -182,6 +182,8 @@
                 type: 2,
                 btns: 'confirm',
                 enterEvent: true,
+                minWidth: '240px',
+                maxWidth: '450px',
                 privateCls: {
                     'lay-body': 'lay-confirm'
                 }
@@ -257,6 +259,7 @@
             var opts = createOptions(typeOfArgs);
             this.createLay(opts, privateDefaults);
             this.setPosition();
+            this.setStyles();
             this.eventBind();
         },
 
@@ -324,6 +327,9 @@
             this.control = opts.control;
             this.enterEvent = opts.enterEvent;
             this.escEvent = opts.escEvent;
+
+            this.minWidth = opts.minWidth;
+            this.maxWidth = opts.maxWidth;
 
             for(var i in privateCls){
                 privateCls[i] = cls[i] + ' ' + privateCls[i];
@@ -486,6 +492,11 @@
         },
 
 
+        setStyles: function(){
+
+        },
+
+
         /*
             onConfirm
             bind confirm
@@ -567,6 +578,6 @@
 
     }
 
-    window.lay = lay;
+    window.lay = new Lay();
 
 })(window, jQuery);
