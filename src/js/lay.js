@@ -6,31 +6,35 @@
     var version = '1.0',
         defaults = {
             title: '提示信息',
-            /*
-                true, false or 'close'
-            */
+            /**
+             *  true, false or 'close'
+             */
             shade: true,
             control: true,
-            /*
-                in use
-                change to control
-                to be deleted
-            */
+            /**
+             *  in use
+             *  change to control
+             *  to be deleted
+             */
             layControl: true,
             enterEvent: false,
             escEvent: true,
             /*
-                middle
-                top
-                bottom
+
             */
+
+            /**
+             *  middle
+             *  top
+             *  bottom
+             */
             position: 'middle',
             space: 15,
             minWidth: null,
             maxWidth: null,
-            /*
-                false, 'alert', 'confirm'
-            */
+            /**
+             *  false, 'alert', 'confirm'
+             */
             btns: false,
             okText: '确定',
             cancelText: '取消',
@@ -66,7 +70,6 @@
 
     /**
      * var getTypeOfArgs - get the type of funcion arguments
-     *
      * @param  {json} args the arguments of method
      * @return {json} classify the arguments
     **/
@@ -103,9 +106,9 @@
     }
 
 
-    /*
-        create options
-    */
+    /**
+     *  create options
+     */
 
     var createOptions = function(typeOfArgs){
 
@@ -135,9 +138,9 @@
     }
 
 
-    /*
-        prototype
-    */
+    /**
+     *  prototype
+     */
 
     Lay.prototype = {
 
@@ -145,15 +148,14 @@
 
         defaults: defaults,
 
-        /*
-            params:
-            content         string
-            options         json
-            ok              callback
-            cancel          callback
-        */
 
-
+        /**
+         *  params:
+         *  content     string
+         *  options     json
+         *  ok          callback
+         *  cancel      callback
+         */
 
         alert: function(content, options, ok, cancel){
 
@@ -250,9 +252,9 @@
         },
 
 
-        /*
-            init
-        */
+        /**
+         *  init
+         */
 
         init: function(args, privateDefaults){
             var typeOfArgs = getTypeOfArgs(args);
@@ -264,9 +266,9 @@
         },
 
 
-        /*
-            create lay doms
-        */
+        /**
+         *  create lay doms
+         */
 
         createLayDoms: function(title, content, okText, cancelText, layCounter){
             var cls = this.cls;
@@ -294,9 +296,10 @@
         },
 
 
-        /*
-            create lay
-        */
+
+        /**
+         *  create lay
+         */
 
         createLay: function(options, privateDefaults){
             var _this = this;
@@ -344,15 +347,13 @@
             layDoms = this.createLayDoms(title, content, okText, cancelText, layCounter);
 
 
-            /*
-                dispaly control:
-
-                shade
-                title
-                layControl
-                btns
-
-            */
+            /**
+             *  dispaly control:
+             *  shade
+             *  title
+             *  layControl
+             *  btns
+             */
 
             /* shade */
             if(this.shade){
@@ -399,9 +400,9 @@
         },
 
 
-        /*
-            set position
-        */
+        /**
+         *  set position
+         */
 
         setPosition: function(index){
             var _this = this;
@@ -497,10 +498,10 @@
         },
 
 
-        /*
-            onConfirm
-            bind confirm
-        */
+        /**
+         *  onConfirm
+         *  bind confirm
+         */
 
         onConfirm: function(){
             this.close();
@@ -508,10 +509,10 @@
         },
 
 
-        /*
-            onCancle
-            bind cancel
-        */
+        /**
+         *  onCancle
+         *  bind cancel
+         */
 
         onCancel: function(){
             this.close();
@@ -519,9 +520,9 @@
         },
 
 
-        /*
-            event bind
-        */
+        /**
+         *  event bind
+         */
 
         eventBind: function(){
 
@@ -569,8 +570,13 @@
         },
 
         /*
-            设置全局默认项
-        */
+
+        /**
+         * setDefaults
+         *
+         * @param  {json} options
+         */
+
         setDefaults: function(options){
             var _this = this;
             this.defaults = $.extend({}, _this.defaults, options);
