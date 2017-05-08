@@ -6,35 +6,39 @@
     var version = '1.0',
         defaults = {
             title: '提示信息',
+
             /**
              *  true, false or 'close'
              */
+
             shade: true,
             control: true,
+
             /**
              *  in use
              *  change to control
              *  to be deleted
              */
+
             layControl: true,
             enterEvent: false,
             escEvent: true,
-            /*
-
-            */
 
             /**
              *  middle
              *  top
              *  bottom
              */
+
             position: 'middle',
             space: 15,
             minWidth: null,
             maxWidth: null,
+
             /**
              *  false, 'alert', 'confirm'
              */
+             
             btns: false,
             okText: '确定',
             cancelText: '取消',
@@ -356,6 +360,7 @@
              */
 
             /* shade */
+
             if(this.shade){
                 doms += layDoms['a'];
             }
@@ -568,8 +573,6 @@
                 }
             });
         },
-
-        /*
 
         /**
          * setDefaults
