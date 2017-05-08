@@ -1,5 +1,5 @@
 ;
-(function(win, $, undefined){
+(function(win, $, undefined) {
 
     "use strict";
 
@@ -38,7 +38,7 @@
             /**
              *  false, 'alert', 'confirm'
              */
-             
+
             btns: false,
             okText: '确定',
             cancelText: '取消',
@@ -65,9 +65,14 @@
             'lay-btns': 'lay-btns',
             'lay-btn-confirm': 'lay-btn-confirm',
             'lay-btn-cancel': 'lay-btn-cancel'
-        };
+        },
 
-    var Lay = function(){
+        /**
+         * queue of lays active
+         */
+        queue = [];
+
+    var Lay = function() {
 
     }
 
@@ -76,28 +81,28 @@
      * var getTypeOfArgs - get the type of funcion arguments
      * @param  {json} args the arguments of method
      * @return {json} classify the arguments
-    **/
+     **/
 
-    var getTypeOfArgs = function(args){
+    var getTypeOfArgs = function(args) {
 
         var strArgs = [],
             jsonArgs = [],
             fnArgs = [];
 
-        for(var i=0; i<args.length; i++){
+        for (var i = 0; i < args.length; i++) {
             var arg = args[i];
-            switch(typeof arg){
+            switch (typeof arg) {
                 case 'string':
-                strArgs.push(arg);
-                break;
+                    strArgs.push(arg);
+                    break;
 
                 case 'object':
-                jsonArgs.push(arg);
-                break;
+                    jsonArgs.push(arg);
+                    break;
 
                 case 'function':
-                fnArgs.push(arg);
-                break;
+                    fnArgs.push(arg);
+                    break;
             }
         }
 
@@ -114,7 +119,7 @@
      *  create options
      */
 
-    var createOptions = function(typeOfArgs){
+    var createOptions = function(typeOfArgs) {
 
         var typeOfArgs,
             strArgs,
@@ -128,8 +133,8 @@
         strArgs = typeOfArgs['strArgs'];
         jsonArgs = typeOfArgs['jsonArgs'];
         fnArgs = typeOfArgs['fnArgs'];
-        strArgs.length? content = strArgs[0] : content = '';
-        jsonArgs.length? options = jsonArgs[0] : options = {};
+        strArgs.length ? content = strArgs[0] : content = '';
+        jsonArgs.length ? options = jsonArgs[0] : options = {};
         ok = fnArgs[0];
         cancel = fnArgs[1];
 
@@ -161,7 +166,7 @@
          *  cancel      callback
          */
 
-        alert: function(content, options, ok, cancel){
+        alert: function(content, options, ok, cancel) {
 
             var args = arguments;
             var privateDefaults = {
@@ -182,7 +187,7 @@
         },
 
 
-        confirm: function(content, options, ok, cancel){
+        confirm: function(content, options, ok, cancel) {
             var args = arguments;
             var privateDefaults = {
                 type: 2,
@@ -200,7 +205,7 @@
         },
 
 
-        msg: function(){
+        msg: function() {
             var args = arguments;
             var privateDefaults = {
                 type: 3,
@@ -218,7 +223,7 @@
         },
 
 
-        tip: function(){
+        tip: function() {
             var args = arguments;
             var privateDefaults = {
                 type: 4,
@@ -236,7 +241,7 @@
         },
 
 
-        pop: function(){
+        pop: function() {
             var args = arguments;
             var privateDefaults = {
                 type: 5,
@@ -250,8 +255,15 @@
         },
 
 
-        close: function(index){
-            var index = index || layCounter;
+        close: function(index) {
+            var index = index;
+            if(index===undefined){
+                 index=queue.pop();
+            }
+            else{
+                queue.splice(queue.indexOf(index),1);
+            }
+            console.log('close: ' + index);
             $("[laycounter=" + index + "]").remove();
         },
 
@@ -260,7 +272,7 @@
          *  init
          */
 
-        init: function(args, privateDefaults){
+        init: function(args, privateDefaults) {
             var typeOfArgs = getTypeOfArgs(args);
             var opts = createOptions(typeOfArgs);
             this.createLay(opts, privateDefaults);
@@ -274,7 +286,7 @@
          *  create lay doms
          */
 
-        createLayDoms: function(title, content, okText, cancelText, layCounter){
+        createLayDoms: function(title, content, okText, cancelText, layCounter) {
             var cls = this.cls;
             var styles = this.styles;
             return {
@@ -300,12 +312,11 @@
         },
 
 
-
         /**
          *  create lay
          */
 
-        createLay: function(options, privateDefaults){
+        createLay: function(options, privateDefaults) {
             var _this = this;
             var l = $(".lay-body[laycounter=" + ++layCounter + "]"),
                 content = options.content,
@@ -324,7 +335,7 @@
             console.log(opts);
 
             this.styles = opts.styles,
-            this.position = opts.position;
+                this.position = opts.position;
             this.space = opts.space;
             this.ok = opts.ok || options.ok;
             this.cancel = opts.cancel || options.cancel;
@@ -338,13 +349,13 @@
             this.minWidth = opts.minWidth;
             this.maxWidth = opts.maxWidth;
 
-            for(var i in privateCls){
+            for (var i in privateCls) {
                 privateCls[i] = cls[i] + ' ' + privateCls[i];
             }
 
             this.cls = $.extend({}, cls, privateCls);
 
-            if(classNames){
+            if (classNames) {
                 this.cls['lay-body'] += ' ' + classNames;
             }
 
@@ -361,7 +372,7 @@
 
             /* shade */
 
-            if(this.shade){
+            if (this.shade) {
                 doms += layDoms['a'];
             }
 
@@ -382,7 +393,7 @@
             doms += layDoms.e;
 
             /* btns */
-            if(btns){
+            if (btns) {
 
                 doms += layDoms.f;
 
@@ -390,7 +401,7 @@
                 doms += layDoms.g;
 
                 /* cancel btn */
-                if (btns=== 'confirm') {
+                if (btns === 'confirm') {
                     doms += layDoms.h;
                 }
 
@@ -402,6 +413,9 @@
             doms += layDoms.be;
 
             $('body').append(doms);
+
+            queue.push(layCounter);
+            console.log(queue);
         },
 
 
@@ -409,88 +423,88 @@
          *  set position
          */
 
-        setPosition: function(index){
+        setPosition: function(index) {
             var _this = this;
             var index = index || layCounter;
-            $(".lay-body[laycounter=" + index + "]").each(function(){
+            $(".lay-body[laycounter=" + index + "]").each(function() {
                 var position = _this.position;
 
-                switch(position){
+                switch (position) {
 
                     /* middle */
                     case 'middle':
-                    $(this).css({
-                        'margin-top': -$(this).outerHeight()/2
-                    });
-                    break;
+                        $(this).css({
+                            'margin-top': -$(this).outerHeight() / 2
+                        });
+                        break;
 
-                    /* top */
+                        /* top */
                     case 'top':
-                    $(this).css({
-                        'top': _this.space
-                    });
-                    break;
+                        $(this).css({
+                            'top': _this.space
+                        });
+                        break;
 
-                    /* bottom */
+                        /* bottom */
                     case 'bottom':
-                    $(this).css({
-                        'top': 'auto',
-                        'bottom': _this.space
-                    });
-                    break;
+                        $(this).css({
+                            'top': 'auto',
+                            'bottom': _this.space
+                        });
+                        break;
 
-                    /* top left */
+                        /* top left */
                     case 'topLeft':
-                    $(this).css({
-                        'top': _this.space,
-                        'left': _this.space
-                    });
-                    break;
+                        $(this).css({
+                            'top': _this.space,
+                            'left': _this.space
+                        });
+                        break;
 
-                    /* top right */
+                        /* top right */
                     case 'topRight':
-                    $(this).css({
-                        'top': _this.space,
-                        'left': 'auto',
-                        'right': _this.space
-                    });
-                    break;
+                        $(this).css({
+                            'top': _this.space,
+                            'left': 'auto',
+                            'right': _this.space
+                        });
+                        break;
 
-                    /* top right */
+                        /* top right */
                     case 'topRight':
-                    $(this).css({
-                        'top': _this.space,
-                        'left': 'auto',
-                        'right': _this.space
-                    });
-                    break;
+                        $(this).css({
+                            'top': _this.space,
+                            'left': 'auto',
+                            'right': _this.space
+                        });
+                        break;
 
-                    /* bottom right */
+                        /* bottom right */
                     case 'bottomRight':
-                    $(this).css({
-                        'left': 'auto',
-                        'top': 'auto',
-                        'bottom': _this.space,
-                        'right': _this.space
-                    });
-                    break;
+                        $(this).css({
+                            'left': 'auto',
+                            'top': 'auto',
+                            'bottom': _this.space,
+                            'right': _this.space
+                        });
+                        break;
 
-                    /* bottom left */
+                        /* bottom left */
                     case 'bottomLeft':
-                    $(this).css({
-                        'left': _this.space,
-                        'top': 'auto',
-                        'bottom': _this.space
-                    });
-                    break;
+                        $(this).css({
+                            'left': _this.space,
+                            'top': 'auto',
+                            'bottom': _this.space
+                        });
+                        break;
 
                     default:
-                    break;
+                        break;
                 }
 
-                if(_this.position==='middle' || _this.position==='top' || _this.position==='bottom'){
+                if (_this.position === 'middle' || _this.position === 'top' || _this.position === 'bottom') {
                     $(this).css({
-                        'margin-left': -$(this).outerWidth()/2
+                        'margin-left': -$(this).outerWidth() / 2
                     });
                 }
 
@@ -498,7 +512,7 @@
         },
 
 
-        setStyles: function(){
+        setStyles: function() {
 
         },
 
@@ -508,9 +522,9 @@
          *  bind confirm
          */
 
-        onConfirm: function(){
+        onConfirm: function() {
             this.close();
-            this.ok? this.ok(this.params): '';
+            this.ok ? this.ok(this.params) : '';
         },
 
 
@@ -519,9 +533,9 @@
          *  bind cancel
          */
 
-        onCancel: function(){
+        onCancel: function() {
             this.close();
-            this.cancel? this.cancel(): '';
+            this.cancel ? this.cancel() : '';
         },
 
 
@@ -529,29 +543,29 @@
          *  event bind
          */
 
-        eventBind: function(){
+        eventBind: function() {
 
             var _this = this;
 
-            $('.lay-close').click(function(){
+            $('.lay-close').click(function() {
                 _this.onCancel();
             });
 
-            if(_this.shade==='close'){
-                $('.lay-shade').click(function(){
+            if (_this.shade === 'close') {
+                $('.lay-shade').click(function() {
                     _this.onCancel();
                 });
             }
 
-            $('.lay-btn-cancel').click(function(){
+            $('.lay-btn-cancel').click(function() {
                 _this.onCancel();
             });
 
-            $('.lay-btn-confirm').click(function(){
+            $('.lay-btn-confirm').click(function() {
                 _this.onConfirm();
             });
 
-            if(!(this.layControl && this.control)){
+            if (!(this.layControl && this.control)) {
                 _this.escEvent = false;
                 _this.enterEvent = false;
             }
@@ -559,12 +573,12 @@
             $(window).keyup(function(e) {
                 switch (e.keyCode) {
                     case 27:
-                        if(_this.escEvent){
+                        if (_this.escEvent) {
                             _this.onCancel();
                         }
                         break;
                     case 13:
-                        if(_this.enterEvent){
+                        if (_this.enterEvent) {
                             _this.onConfirm();
                         }
                         break;
@@ -580,7 +594,7 @@
          * @param  {json} options
          */
 
-        setDefaults: function(options){
+        setDefaults: function(options) {
             var _this = this;
             this.defaults = $.extend({}, _this.defaults, options);
         }
