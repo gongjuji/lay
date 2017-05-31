@@ -265,6 +265,8 @@
             }
             console.log('close: ' + index);
             $("[laycounter=" + index + "]").remove();
+            console.log(new Date() + ' ' + index);
+            console.log(queue);
         },
 
 
@@ -428,6 +430,11 @@
             var index = index || layCounter;
             $(".lay-body[laycounter=" + index + "]").each(function() {
                 var position = _this.position;
+                if(_this.space.__ptoto__ == 'Array'){
+                    _this.spaceVertical = _this.space[0];
+                    _this.spaceHorizontal = _this.space[1];
+                }
+                else _this.spaceVertical = _this.spaceHorizontal = _this.space;
 
                 switch (position) {
 
@@ -438,63 +445,70 @@
                         });
                         break;
 
-                        /* top */
+                    /* top */
                     case 'top':
                         $(this).css({
-                            'top': _this.space
+                            'top': _this.spaceVertical
                         });
                         break;
 
-                        /* bottom */
+                    /* right */
+                    case 'right':
+                        $(this).css({
+                            'margin-top': -$(this).outerHeight() / 2,
+                            'left': 'auto',
+                            'right': _this.spaceHorizontal
+                        });
+                        break;
+
+                    /* bottom */
                     case 'bottom':
                         $(this).css({
                             'top': 'auto',
-                            'bottom': _this.space
+                            'bottom': _this.spaceVertical
+                        });
+                        break;
+                    /* left */
+                    case 'left':
+                        $(this).css({
+                            'margin-top': -$(this).outerHeight() / 2,
+                            'left': _this.spaceHorizontal
                         });
                         break;
 
-                        /* top left */
+                    /* top left */
                     case 'topLeft':
                         $(this).css({
-                            'top': _this.space,
-                            'left': _this.space
+                            'top': _this.spaceVertical,
+                            'left': _this.spaceHorizontal
                         });
                         break;
 
-                        /* top right */
+                    /* top right */
                     case 'topRight':
                         $(this).css({
-                            'top': _this.space,
+                            'top': _this.spaceVertical,
                             'left': 'auto',
-                            'right': _this.space
+                            'right': _this.spaceHorizontal
                         });
                         break;
 
-                        /* top right */
-                    case 'topRight':
-                        $(this).css({
-                            'top': _this.space,
-                            'left': 'auto',
-                            'right': _this.space
-                        });
-                        break;
-
-                        /* bottom right */
+                    /* bottom right */
                     case 'bottomRight':
                         $(this).css({
                             'left': 'auto',
                             'top': 'auto',
-                            'bottom': _this.space,
-                            'right': _this.space
+                            'bottom': _this.spaceVertical,
+                            'right': _this.spaceHorizontal
                         });
                         break;
 
-                        /* bottom left */
+                    /* bottom left */
                     case 'bottomLeft':
                         $(this).css({
-                            'left': _this.space,
+                            'left': _this.spaceHorizontal,
                             'top': 'auto',
-                            'bottom': _this.space
+                            'bottom': _this.spaceVertical
                         });
                         break;
 
@@ -548,6 +562,7 @@
             var _this = this;
 
             $('.lay-close').click(function() {
+                console.log($(this).parents('.lay-body').attr('laycounter'));
                 _this.onCancel();
             });
 
