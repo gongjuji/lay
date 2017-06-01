@@ -434,10 +434,6 @@
                     _this.spaceHorizontal = _this.space[1];
                 }
                 else _this.spaceVertical = _this.spaceHorizontal = _this.space;
-                console.log(_this.space)
-                console.log(_this.space.__proto__);
-                console.log( _this.spaceVertical);
-                console.log( _this.spaceHorizontal);
 
                 switch (position) {
 
