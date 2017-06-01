@@ -257,11 +257,10 @@
 
         close: function(index) {
             var index = index;
-            if(index===undefined){
-                 index=queue.pop();
-            }
-            else{
-                queue.splice(queue.indexOf(index),1);
+            if (index === undefined) {
+                index = queue.pop();
+            } else {
+                queue.splice(queue.indexOf(index), 1);
             }
             console.log('close: ' + index);
             $("[laycounter=" + index + "]").remove();
@@ -430,11 +429,15 @@
             var index = index || layCounter;
             $(".lay-body[laycounter=" + index + "]").each(function() {
                 var position = _this.position;
-                if(_this.space.__ptoto__ == 'Array'){
+                if (_this.space.__proto__ == Array.prototype ) {
                     _this.spaceVertical = _this.space[0];
                     _this.spaceHorizontal = _this.space[1];
                 }
                 else _this.spaceVertical = _this.spaceHorizontal = _this.space;
+                console.log(_this.space)
+                console.log(_this.space.__proto__);
+                console.log( _this.spaceVertical);
+                console.log( _this.spaceHorizontal);
 
                 switch (position) {
 
@@ -445,14 +448,14 @@
                         });
                         break;
 
-                    /* top */
+                        /* top */
                     case 'top':
                         $(this).css({
                             'top': _this.spaceVertical
                         });
                         break;
 
-                    /* right */
+                        /* right */
                     case 'right':
                         $(this).css({
                             'margin-top': -$(this).outerHeight() / 2,
@@ -461,14 +464,14 @@
                         });
                         break;
 
-                    /* bottom */
+                        /* bottom */
                     case 'bottom':
                         $(this).css({
                             'top': 'auto',
                             'bottom': _this.spaceVertical
                         });
                         break;
-                    /* left */
+                        /* left */
                     case 'left':
                         $(this).css({
                             'margin-top': -$(this).outerHeight() / 2,
@@ -476,7 +479,7 @@
                         });
                         break;
 
-                    /* top left */
+                        /* top left */
                     case 'topLeft':
                         $(this).css({
                             'top': _this.spaceVertical,
@@ -484,7 +487,7 @@
                         });
                         break;
 
-                    /* top right */
+                        /* top right */
                     case 'topRight':
                         $(this).css({
                             'top': _this.spaceVertical,
@@ -493,7 +496,7 @@
                         });
                         break;
 
-                    /* bottom right */
+                        /* bottom right */
                     case 'bottomRight':
                         $(this).css({
                             'left': 'auto',
@@ -503,7 +506,7 @@
                         });
                         break;
 
-                    /* bottom left */
+                        /* bottom left */
                     case 'bottomLeft':
                         $(this).css({
                             'left': _this.spaceHorizontal,
