@@ -3,8 +3,14 @@
 
     "use strict";
 
+    var Lay = function() {
+
+    }
+
     var version = '1.0',
+
         defaults = {
+
             title: '提示信息',
 
             /**
@@ -56,26 +62,21 @@
         layHeight,
         objStyle,
         cls = {
-            'lay-shade': 'lay-shade',
-            'lay-body': 'lay-body',
-            'lay-title': 'lay-title',
-            'lay-control': 'lay-control',
-            'lay-close': 'lay-close',
-            'lay-content': 'lay-content',
-            'lay-btns': 'lay-btns',
-            'lay-btn-confirm': 'lay-btn-confirm',
-            'lay-btn-cancel': 'lay-btn-cancel'
+            'lay-shade':        'lay-shade',
+            'lay-body':         'lay-body',
+            'lay-title':        'lay-title',
+            'lay-control':      'lay-control',
+            'lay-close':        'lay-close',
+            'lay-content':      'lay-content',
+            'lay-btns':         'lay-btns',
+            'lay-btn-confirm':  'lay-btn-confirm',
+            'lay-btn-cancel':   'lay-btn-cancel'
         },
 
         /**
          * queue of lays active
          */
         queue = [];
-
-    var Lay = function() {
-
-    }
-
 
     /**
      * var getTypeOfArgs - get the type of funcion arguments
@@ -319,36 +320,35 @@
 
         createLay: function(options, privateDefaults) {
             var _this = this;
-            var l = $(".lay-body[laycounter=" + ++layCounter + "]"),
-                content = options.content,
-                opts = $.extend({}, _this.defaults, privateDefaults, options.options),
-                type = opts.type,
-                shade = opts.shade,
-                title = opts.title,
-                btns = opts.btns,
-                okText = opts.okText,
-                cancelText = opts.cancelText,
-                classNames = opts.classNames,
-                privateCls = opts.privateCls,
+            var l           = $(".lay-body[laycounter=" + ++layCounter + "]"),
+                content     = options.content,
+                opts        = $.extend({}, _this.defaults, privateDefaults, options.options),
+                type        = opts.type,
+                shade       = opts.shade,
+                title       = opts.title,
+                btns        = opts.btns,
+                okText      = opts.okText,
+                cancelText  = opts.cancelText,
+                classNames  = opts.classNames,
+                privateCls  = opts.privateCls,
                 layDoms,
                 doms = '';
 
             console.log(opts);
 
-            this.styles = opts.styles,
-                this.position = opts.position;
-            this.space = opts.space;
-            this.ok = opts.ok || options.ok;
-            this.cancel = opts.cancel || options.cancel;
-            this.params = opts.params || options.params;
-            this.shade = opts.shade;
-            this.layControl = opts.layControl;
-            this.control = opts.control;
-            this.enterEvent = opts.enterEvent;
-            this.escEvent = opts.escEvent;
-
-            this.minWidth = opts.minWidth;
-            this.maxWidth = opts.maxWidth;
+            this.styles         = opts.styles,
+            this.position       = opts.position;
+            this.space          = opts.space;
+            this.ok             = opts.ok || options.ok;
+            this.cancel         = opts.cancel || options.cancel;
+            this.params         = opts.params || options.params;
+            this.shade          = opts.shade;
+            this.layControl     = opts.layControl;
+            this.control        = opts.control;
+            this.enterEvent     = opts.enterEvent;
+            this.escEvent       = opts.escEvent;
+            this.minWidth       = opts.minWidth;
+            this.maxWidth       = opts.maxWidth;
 
             for (var i in privateCls) {
                 privateCls[i] = cls[i] + ' ' + privateCls[i];
